@@ -14,6 +14,7 @@ class AuthService:
     def initiate_login(self, email):
         resp = self.client.magic_links.email.login_or_create(
             email=email,
+            login_redirect_url=Config.FRONTEND_URL + '/auth/callback'  # Adjust this path as needed
         )
         return resp
 

@@ -20,3 +20,4 @@ class Config:
     STYTCH_SECRET = os.environ.get('STYTCH_SECRET')
     POSTHOG_KEY = os.environ.get("POSTHOG_KEY")
     POSTHOG_URL = os.environ.get("POSTHOG_URL")
+    FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')

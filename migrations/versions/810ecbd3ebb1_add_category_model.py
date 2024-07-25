@@ -7,6 +7,7 @@ Create Date: 2024-07-24 22:42:24.341331
 """
 from alembic import op
 import sqlalchemy as sa
+from pgvector.sqlalchemy import Vector
 
 
 # revision identifiers, used by Alembic.
@@ -42,7 +43,7 @@ def upgrade():
     sa.Column('ingredients', sa.JSON(), nullable=False),
     sa.Column('instructions', sa.Text(), nullable=False),
     sa.Column('image_url', sa.String(length=255), nullable=True),
-    sa.Column('embedding', pgvector.sqlalchemy.vector.VECTOR(dim=1024), nullable=True),
+    sa.Column('embedding', Vector(1024), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.DateTime(), nullable=True),
     sa.Column('updated_at', sa.DateTime(), nullable=True),

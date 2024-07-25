@@ -2,9 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
+from sqlalchemy.ext.declarative import declarative_base
+from pgvector.sqlalchemy import Vector
 
 db = SQLAlchemy()
 migrate = Migrate()
+Base = declarative_base()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -12,6 +15,10 @@ def create_app(config_class=Config):
 
     db.init_app(app)
     migrate.init_app(app, db)
+
+    with app.app_context():
+        if db.engine.url.drivername == 'postgresql':
+            db.engine.execute('CREATE EXTENSION IF NOT EXISTS vector')
 
     from app.routes import auth, recipes
     app.register_blueprint(auth.bp)

@@ -5,9 +5,16 @@ load_dotenv()  # This loads the .env file
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
-    if SQLALCHEMY_DATABASE_URI and SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
-        SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
+    # Database configuration
+    db_params = {
+        "dbname": os.environ.get("PGDATABASE"),
+        "user": os.environ.get("PGUSER"),
+        "password": os.environ.get("PGPASSWORD"),
+        "host": os.environ.get("PGHOST"),
+        "port": os.environ.get("PGPORT")
+    }
+    
+    SQLALCHEMY_DATABASE_URI = f'postgresql://{db_params["user"]}:{db_params["password"]}@{db_params["host"]}:{db_params["port"]}/{db_params["dbname"]}'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STYTCH_PROJECT_ID = os.environ.get('STYTCH_PROJECT_ID')
     STYTCH_SECRET = os.environ.get('STYTCH_SECRET')

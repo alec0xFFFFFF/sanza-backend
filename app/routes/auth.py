@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from pydantic import BaseModel, EmailStr
 import stytch
+from stytch.core.response_base import StytchError
 from app.services.auth_service import AuthService
 
 bp = Blueprint('auth', __name__, url_prefix='/api/auth')
@@ -21,7 +22,7 @@ def initiate_login():
     try:
         response = auth_service.initiate_login(user_data.email)
         return {'message': 'Magic link sent. Please check your email.'}, 200
-    except stytch.exceptions.StytchError as e:
+    except StytchError as e:
         return {'message': 'Error sending magic link', 'error': str(e)}, 400
 
 @bp.route('/authenticate', methods=['POST'])
@@ -34,7 +35,7 @@ def authenticate():
     try:
         user = auth_service.authenticate(token)
         return {'message': 'Authentication successful', 'user_id': user.id}, 200
-    except stytch.exceptions.StytchError as e:
+    except StytchError as e:
         return {'message': 'Invalid token', 'error': str(e)}, 400
 
 @bp.route('/verify-token', methods=['POST'])

@@ -1,8 +1,8 @@
 from config import Config
 import stytch
+from stytch.core.response_base import StytchError
 from app import db
 from app.models import User
-from flask import current_app
 
 class AuthService:
     def __init__(self):
@@ -12,11 +12,10 @@ class AuthService:
         )
 
     def initiate_login(self, email):
-        return self.client.magic_links.email.login_or_create(
+        resp = self.client.magic_links.email.login_or_create(
             email=email,
-            login_magic_link_url=f"{current_app.config['FRONTEND_URL']}/login",
-            signup_magic_link_url=f"{current_app.config['FRONTEND_URL']}/signup"
         )
+        return resp
 
     def authenticate(self, token):
         auth_response = self.client.magic_links.authenticate(token=token)
@@ -41,5 +40,6 @@ class AuthService:
                 db.session.add(user)
                 db.session.commit()
             return user
-        except stytch.exceptions.RequestException:
+        except StytchError as e:
+            print(e)
             return None

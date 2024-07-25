@@ -1,7 +1,7 @@
 from config import Config
 import stytch
 from app import db
-from app.models.user import User
+from app.models import User
 
 class AuthService:
     def __init__(self):

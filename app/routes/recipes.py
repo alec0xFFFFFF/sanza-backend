@@ -6,6 +6,7 @@ from app.models import db, Recipe
 from pydantic import BaseModel, ValidationError
 from ..utils import get_gcs_client, generate_embedding
 from celery import shared_task
+from app import posthog
 
 bp = Blueprint('recipes', __name__, url_prefix='/api/recipes')
 api = Namespace('recipes', description='Recipe related operations')
@@ -51,6 +52,8 @@ class RecipesResource(Resource):
     @api.response(400, 'Invalid input')
     def post(self):
         """Create a new recipe"""
+        # Use PostHog
+        posthog.posthog.capture('user-id', 'create-recipe')
         try:
             recipe_data = RecipeCreate(**request.json)
         except ValidationError as e:

@@ -25,11 +25,9 @@ def create_app(config_class=Config):
         if db.engine.url.drivername == 'postgresql':
             db.engine.execute('CREATE EXTENSION IF NOT EXISTS vector')
 
-    from app.routes.auth import api as auth_ns
     from app.routes.recipes import bp as recipes_bp
     from app.routes.auth import bp as auth_bp
 
-    api.add_namespace(auth_ns)
     app.register_blueprint(recipes_bp)
     app.register_blueprint(auth_bp)
 

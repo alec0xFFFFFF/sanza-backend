@@ -1,6 +1,5 @@
 from flask_restx import Namespace, Resource, fields
-from flask import request, current_app, jsonify
-from app.models import db, User
+from flask import request
 from pydantic import BaseModel, EmailStr
 import stytch
 from app.services.auth_service import AuthService

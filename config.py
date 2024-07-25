@@ -18,3 +18,5 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     STYTCH_PROJECT_ID = os.environ.get('STYTCH_PROJECT_ID')
     STYTCH_SECRET = os.environ.get('STYTCH_SECRET')
+    POSTHOG_KEY = os.environ.get("POSTHOG_KEY")
+    POSTHOG_URL = os.environ.get("POSTHOG_URL")

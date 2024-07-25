@@ -3,10 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 from sqlalchemy.ext.declarative import declarative_base
+from posthog import Posthog
 
 db = SQLAlchemy()
 migrate = Migrate()
 Base = declarative_base()
+posthog = Posthog(
+    project_api_key=Config.POSTHOG_KEY,
+    host=Config.POSTHOG_URL
+)
 
 def create_app(config_class=Config):
     app = Flask(__name__)

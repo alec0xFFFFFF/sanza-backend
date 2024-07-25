@@ -11,5 +11,6 @@ class Recipe(db.Model):
     image_url = db.Column(db.String(255))
     embedding = db.Column(Vector(1024))
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
+    category = db.relationship('Category', backref='recipes')
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, onupdate=datetime.utcnow)

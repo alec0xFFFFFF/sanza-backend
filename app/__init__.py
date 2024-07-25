@@ -3,7 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
 from sqlalchemy.ext.declarative import declarative_base
-from pgvector.sqlalchemy import Vector
 
 db = SQLAlchemy()
 migrate = Migrate()
